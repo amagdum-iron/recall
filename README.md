@@ -103,12 +103,6 @@ sections:
         prompt: Was a concrete next step booked (demo, follow-up call, proposal)?
 ```
 
-Validate your specs without spending any API calls:
-
-```sh
-cargo run --example validate_analyses
-```
-
 ## Project layout
 
 ```
