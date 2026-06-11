@@ -33,6 +33,8 @@ cp .env.example .env
 
 ## Usage
 
+Place your audio files in a directory (e.g. `recordings/`) and pass it with `--input`; the `transcripts/` cache and `reports/` output directories are created automatically.
+
 ```sh
 # Analyze every recording in a directory with the Iron Software sales spec
 cargo run --release -- \
