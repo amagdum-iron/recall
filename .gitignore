@@ -1,0 +1,12 @@
+/target
+.env
+analyses/customer-support.yaml
+analyses/sales-discovery.yaml
+recordings/
+transcripts/
+reports/
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.ogg

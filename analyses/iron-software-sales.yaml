@@ -1,0 +1,158 @@
+name: Iron Software Sales Call Analysis — v1
+
+sections:
+  # 1. How well did the salesperson run the meeting?
+  - id: salesperson_performance
+    type: scored_rubric
+    role: rep
+    title: Salesperson Performance
+    criteria:
+      - id: discovery_quality
+        prompt: >
+          Did the rep ask enough questions to understand the customer's use case,
+          pain, urgency, technical environment, budget, and decision process?
+        guidance: Look for open-ended questions ("tell me about…", "how do you currently…"). Volume of questions matters less than coverage of these six areas.
+      - id: problem_understanding
+        prompt: >
+          Did the rep clearly identify what the prospect is trying to solve, not
+          just which product they are asking about?
+      - id: commercial_qualification
+        prompt: >
+          Did the rep uncover whether this is a real buying opportunity — budget,
+          timeline, team size, number of developers, deployment needs, and
+          decision-makers?
+      - id: product_positioning
+        prompt: >
+          Did the rep explain Iron Software in a way that matched the customer's
+          use case, rather than giving a generic product overview?
+      - id: objection_handling
+        prompt: >
+          Did the rep respond well to concerns around price, competitors,
+          licensing, support, performance, deployment, or compliance?
+      - id: next_steps
+        prompt: >
+          Did the rep leave the meeting with a clear action, owner, and timeline
+          (e.g. technical demo, quote, trial support, procurement step, follow-up
+          call)?
+
+  # 2. Is the prospect showing buying intent?
+  - id: buying_intent
+    type: signal_categorization
+    role: prospect
+    title: Buying Intent Signals
+    categories:
+      - id: strong_buying_indicators
+        description: >
+          Prospect asks about pricing, licensing, renewal terms, procurement,
+          support, SLAs, deployment, security, compliance, redistribution,
+          production use, or enterprise options.
+      - id: urgency_indicators
+        description: >
+          Prospect mentions a deadline, active project, production release,
+          audit, customer requirement, migration, failed competitor, or internal
+          pressure to solve the issue.
+      - id: technical_fit_indicators
+        description: >
+          Prospect describes a clear use case involving PDF generation, OCR,
+          Excel, barcode, QR, Word, printing, or document workflows — especially
+          in .NET, Java, Python, or Node.js.
+      - id: stakeholder_indicators
+        description: >
+          Prospect mentions a manager, CTO, procurement team, legal team,
+          finance team, security team, or other developers who need to be
+          involved.
+      - id: expansion_indicators
+        description: >
+          Prospect mentions multiple teams, multiple products, several
+          developers, multiple applications, cloud deployment, redistribution,
+          SaaS use, or long-term document-processing needs.
+      - id: low_intent_indicators
+        description: >
+          Prospect is vague, only researching, has no project timeline, no
+          budget, no technical need, is using it for a one-off task, or keeps
+          comparing free/open-source options without a real business case.
+
+  # 3. Why are deals lost? (only applies if the deal is lost)
+  - id: lost_deal_reason
+    type: classification
+    role: synthesis
+    title: Lost Deal Reason
+    optional: true
+    allow_secondary: true
+    options:
+      - id: price_or_budget
+        description: >
+          Customer liked the product but felt it was too expensive, could not
+          get budget, or chose a cheaper/free alternative.
+      - id: licensing_confusion
+        description: >
+          Customer did not understand which license they needed, was worried
+          about redistribution/SaaS/deployment terms, or felt the model was too
+          complex.
+      - id: competitor_selected
+        description: >
+          Customer chose Aspose, Syncfusion, Apryse, iText, Puppeteer, QuestPDF,
+          open-source, or an internal build.
+      - id: technical_gap
+        description: >
+          Iron Software was missing a feature, had a performance issue, did not
+          support the required environment, or failed their technical test.
+      - id: support_or_trust_concern
+        description: >
+          Customer was unsure about support quality, response times,
+          documentation, roadmap, reliability, or long-term vendor risk.
+      - id: procurement_or_legal_blocker
+        description: >
+          Deal stalled because of EULA redlines, security review, insurance,
+          compliance, payment terms, vendor onboarding, or procurement delays.
+      - id: poor_qualification
+        description: >
+          Lead was never a strong fit — too small, no developer team, no real
+          project, no budget, no urgency, or not actually looking for a
+          developer library.
+      - id: sales_process_issue
+        description: >
+          Salesperson did not follow up, failed to involve engineering, gave
+          unclear pricing, missed the decision-maker, or did not create a strong
+          next step.
+      - id: timing
+        description: >
+          Project was delayed, deprioritised, cancelled, or pushed into a future
+          quarter.
+
+  # 4. Overall scorecard
+  - id: scorecard
+    type: summary
+    role: synthesis
+    title: Meeting Scorecard
+    fields:
+      - id: sales_performance
+        prompt: Overall sales performance across discovery, qualification, positioning, objections, and next steps.
+        kind: score
+        min: 1
+        max: 10
+      - id: buying_intent
+        prompt: Overall buying intent rating based on the signals detected.
+        kind: enum
+        values: [high, medium, low]
+      - id: technical_fit
+        prompt: How well does the prospect's described environment fit Iron Software's products?
+        kind: enum
+        values: [strong, medium, weak, unknown]
+      - id: commercial_fit
+        prompt: How well does the prospect's budget, team size, and deployment scale fit Iron Software's pricing tiers?
+        kind: enum
+        values: [strong, medium, weak, unknown]
+      - id: risk_level
+        prompt: Overall risk level for this deal (price, competitor, technical, legal, timing).
+        kind: enum
+        values: [low, medium, high]
+      - id: key_buying_signals
+        prompt: One-paragraph summary of the most important buying signals detected.
+        kind: text
+      - id: risks
+        prompt: One-paragraph summary of the main risks (competitor, price, legal, technical, timing) with the strongest evidence.
+        kind: text
+      - id: recommended_next_action
+        prompt: Concrete next action the rep should take, including who to involve and what to send. Be specific.
+        kind: text
